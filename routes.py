@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from models import db, User, Book, Section, Library
+from models import db, User, Book, Section, Request
 from functools import wraps
 from app import app
 import datetime
@@ -226,6 +226,7 @@ def add_books_post(section_id):
     if title == '' or author == '':
         flash('Book title and Author cannot be empty')
         return redirect(url_for('add_books', section_id=section_id))
+    
     book = Book(title=title,author=author,section_id=section_id)
     db.session.add(book)
     db.session.commit()

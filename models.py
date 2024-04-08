@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from app import app
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 db = SQLAlchemy(app)
 
 # Models
@@ -29,8 +30,6 @@ class Book(db.Model):
     title = db.Column(db.String[64], nullable=False)
     author = db.Column(db.String[64], nullable=False)
     section_id = db.Column(db.Integer, db.ForeignKey('section.id'),nullable=False)
-    date_issued = db.Column(db.Date, nullable=False)
-    return_date = db.Column(db.Date, nullable=False)
 
 class Section(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -40,11 +39,13 @@ class Section(db.Model):
     # Foreign Key Relation
     books = db.relationship('Book',backref='section',lazy=True)
 
-class Library(db.Model):
-    id = db.Column(db.Integer,primary_key=True)
-    book_id = db.Column(db.Integer, db.ForeignKey('book.id'),nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    return_date = db.Column(db.Date, db.ForeignKey('book.return_date'),nullable=False)
+class Request(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    date_requested = db.Column(db.Date, nullable=False, default=datetime.date.today)
+    date_return = db.Column(db.Date, nullable=True, default=datetime.date.today() + datetime.timedelta(days=7))
+
 
 #If Tables dont exist Create them
 with app.app_context():
