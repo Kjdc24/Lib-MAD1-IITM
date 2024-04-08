@@ -195,9 +195,17 @@ def delete_section_post(id):
 def edit_section_post(id):
     section = Section.query.get(id)
     if request.method == 'POST':
-        section.name = request.form['name']
-        section.desc = request.form['desc']
+        section.name = request.form.get('name')
+        date_created = request.form.get('date_created')
+        # You can add code here to validate and format the date if needed
+        try:
+            date_created = datetime.datetime.strptime(date_created, '%Y-%m-%d').date()
+        except ValueError:
+            flash('Invalid date format. Please use YYYY-MM-DD format.')
+            return redirect(url_for('edit_section'))
+        section.date_created = date_created
+        section.desc = request.form.get('desc')
         db.session.commit()
-        flash('Section Updated Successfully')
-        return redirect(url_for('show_section', id=id))
+        flash('Section Updated Successfully', 'success')
+        return redirect(url_for('index', id=id))
     return render_template('edit_section.html', section=section)
