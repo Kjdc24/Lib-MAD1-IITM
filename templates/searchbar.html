@@ -1,0 +1,28 @@
+<div class="container-fluid p-4">
+    <form>
+        <select name="parameter" id="parameter" class="form-select">
+            <option value="book">Book Title</option>
+            <option value="author">Author</option>
+            <option value="section">Section</option>
+        </select>
+        <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
+        <button type="submit" class="btn btn-outline-primary">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
+</div>
+
+<style>
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    #search {
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 50%; 
+    }
+</style>

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from models import db, User, Book, Section, Request
+from models import db, User, Book, Section, Requests
 from functools import wraps
 from app import app
 import datetime
@@ -33,7 +33,7 @@ def index():
     if user.is_admin:
         return redirect(url_for('admin'))
     else:
-        return render_template('index.html', user = user)
+        return render_template('index.html', user = user, sections = Section.query.all())
     
 @app.route('/admin')
 @admin_required
@@ -123,16 +123,6 @@ def register_post():
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
-
-@app.route('/mybooks')
-@auth_required
-def mybooks():
-    return "    "
-
-@app.route('/requests')
-@auth_required
-def requests():
-    return "    "
 
 @app.route('/section/add')
 @admin_required
@@ -280,3 +270,18 @@ def delete_book_post(book_id):
     db.session.commit()
     flash('Book Deleted Successfully')
     return redirect(url_for('show_section', id=book.section_id))
+
+@app.route('/mybooks')
+@auth_required
+def mybooks():
+    return "    "
+
+@app.route('/requests')
+@admin_required
+def requests():
+    return "    "
+
+@app.route('/add_requests/<int:book_id>', methods=['POST'])
+@auth_required
+def add_requests(book_id):
+    return "    "

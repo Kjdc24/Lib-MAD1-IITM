@@ -39,12 +39,15 @@ class Section(db.Model):
     # Foreign Key Relation
     books = db.relationship('Book',backref='section',lazy=True)
 
-class Request(db.Model):
+class Requests(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date_requested = db.Column(db.Date, nullable=False, default=datetime.date.today)
     date_return = db.Column(db.Date, nullable=True, default=datetime.date.today() + datetime.timedelta(days=7))
+    # Foreign Key Relation
+    user = db.relationship('User',backref='requests',lazy=True)
+    book = db.relationship('Book',backref='requests',lazy=True)
 
 
 #If Tables dont exist Create them

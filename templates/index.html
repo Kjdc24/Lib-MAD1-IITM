@@ -3,3 +3,70 @@
 {% block title %}
 Home - Lib
 {% endblock %}
+
+{% block content %}
+{% include 'searchbar.html' with context%}
+<div class="sections-list">
+    {% for section in sections %}
+        <div class="section">
+            <h2>{{ section.name }}</h2>
+            <div class="books-list">
+                {% for book in section.books %}
+                    <div class="book">
+                        <h3>{{ book.title }}</h3>
+                        <p>{{ book.author }}</p>
+                    </div>
+                    <div class="requests">
+                        <form action="{{url_for('add_requests',book_id=book.id)}}" method="POST" class="book-requests">
+                            <button type="submit">
+                                <i class="fas fa-plus fa-xs"></i>
+                                Request
+                            </button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block style %}
+<style>
+    .sections-list{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .section{
+        width: 30%;
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+    }
+    .books-list{
+        margin-top: 10px;
+    }
+    .book{
+        margin-bottom: 10px;
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #b9b9b9;
+        background-color: #2e2e2e;
+        color: white;  
+        border-radius: 5px;
+    }
+    .requests{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .book-requests button{
+        background-color: #2e2e2e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+</style>
+{% endblock %}
