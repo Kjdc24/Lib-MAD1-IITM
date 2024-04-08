@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block title %}
+Add Section - Lib
+{% endblock %}
+{% block content %}
+<h1> Edit Section </h1>
+<form method="post" class="form">
+    <label for="name" class="form-label">Name:
+        <input type="text" name="name" id="name" class="form-control" required />
+    </label>
+    <br> <!-- Add a line break here -->
+    <label for="date_created" class="form-label">Date Created:
+        <input type="date" name="date_created" id="date_created" class="form-control" required />
+    </label>
+    <br> <!-- Add a line break here -->
+    <label for="desc" class="form-label">Description:
+        <input type="text" name="description" id="description" class="form-control" required />
+    </label>
+    <br> <!-- Add a line break here -->
+    <input type="submit" value="Save" class="btn btn-success">
+</form>
+{% endblock %}
+{% block style %}
+<style>
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+    .form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}

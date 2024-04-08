@@ -171,7 +171,7 @@ def show_section(id):
 @app.route('/section/<int:id>/edit')
 @admin_required
 def edit_section(id):
-    return "    "
+    return render_template('section/edit.html',user = User.query.get(session['user_id']),section = Section.query.get(id))
 
 @app.route('/section/<int:id>/delete')
 @admin_required
@@ -193,7 +193,7 @@ def delete_section_post(id):
 @app.route('/section/<int:id>/edit', methods=['GET', 'POST'])
 @admin_required
 def edit_section_post(id):
-    section = Section.query.get_or_404(id)
+    section = Section.query.get(id)
     if request.method == 'POST':
         section.name = request.form['name']
         section.desc = request.form['desc']
