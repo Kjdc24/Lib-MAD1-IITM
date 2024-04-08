@@ -1,12 +1,20 @@
 <div class="container-fluid p-4">
     <form>
         <select name="parameter" id="parameter" class="form-select">
-            <option value="book">Book Title</option>
-            <option value="author">Author</option>
-            <option value="section">Section</option>
+            {% for param in parameters %}
+                {% if param == parameter %}
+                    <option value="{{param}}" selected>{{parameters[param]}}</option>
+                {% else %}
+                    <option value="{{param}}">{{parameters[param]}}</option>
+                {% endif %}
+            {% endfor %}
+            
         </select>
-        <input type="text" name="search" id="search" class="form-control" placeholder="Search" />
-        <button type="submit" class="btn btn-outline-primary">
+        <input type="text" name="query" id="query" class="form-control" placeholder="Search" value="{{query}}"/>
+        <button type="button" class="btn btn-outline-danger button1" onclick="clearSearch()">
+            <i class="fas fa-backspace"></i>
+        </button>        
+        <button type="submit" class="btn btn-outline-primary button1">
             <i class="fas fa-search"></i>
         </button>
     </form>
@@ -20,9 +28,32 @@
         justify-content: center;
         align-items: center;
     }
+    #parameter {
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 20%;
+    }
     #search {
         margin-left: 10px;
         margin-right: 10px;
         width: 50%; 
     }
+    button {
+        margin-left: 10px;
+    }
+    .button1 {
+        background-color: #f8f9fa;
+        margin-left: 10px;
+        margin-right: 10px;
+        color: rgb(68, 68, 68);
+        width: 10%;
+        border-color: rgb(68, 68, 68);
+    }
 </style>
+
+<script>
+    function clearSearch() 
+    {
+        window.location.href = "url_for('search')";
+    }
+</script>

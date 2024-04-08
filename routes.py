@@ -32,8 +32,20 @@ def index():
     user = User.query.get(session['user_id'])
     if user.is_admin:
         return redirect(url_for('admin'))
-    else:
-        return render_template('index.html', user = user, sections = Section.query.all())
+    parameter = request.args.get('parameter')
+    query = request.args.get('query')
+    parameters = {'name':'Book Name','author':'Author','section':'Section Name'}
+    if not parameter or not query:
+        return render_template('index.html', user = user, sections = Section.query.all(), parameters = parameters)
+    if parameter == 'section':
+        sections = Section.query.filter(Section.name.ilike('%' + query + '%')).all()
+        return render_template('index.html', user = user, sections = sections, query=query, parameter=parameter, parameters = parameters)
+    if parameter == 'name':
+        return render_template('index.html', user = user, sections = Section.query.all(),name=query,query=query, parameter=parameter, parameters = parameters)
+    if parameter == 'author':
+        return render_template('index.html', user = user, sections = Section.query.all(),author=query,query=query, parameter=parameter, parameters = parameters)
+    
+    return render_template('index.html', user = user, sections = Section.query.all(),query=query, parameters = parameters)
     
 @app.route('/admin')
 @admin_required
