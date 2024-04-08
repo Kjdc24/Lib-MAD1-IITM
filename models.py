@@ -26,9 +26,8 @@ class User(db.Model):
 
 class Book(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String[64], nullable=False)
+    title = db.Column(db.String[64], nullable=False)
     author = db.Column(db.String[64], nullable=False)
-    content = db.Column(db.String[512], nullable=True)
     section_id = db.Column(db.Integer, db.ForeignKey('section.id'),nullable=False)
     date_issued = db.Column(db.Date, nullable=False)
     return_date = db.Column(db.Date, nullable=False)

@@ -166,7 +166,7 @@ def add_section_post():
 @app.route('/section/<int:id>/show')
 @admin_required
 def show_section(id):
-    return "    "
+    return render_template('section/show.html',user = User.query.get(session['user_id']),section = Section.query.get(id))
 
 @app.route('/section/<int:id>/edit')
 @admin_required
@@ -207,5 +207,27 @@ def edit_section_post(id):
         section.desc = request.form.get('desc')
         db.session.commit()
         flash('Section Updated Successfully', 'success')
-        return redirect(url_for('index', id=id))
-    return render_template('edit_section.html', section=section)
+        return redirect(url_for('admin'))
+    
+@app.route('/section/<int:section_id>/add-books')
+@admin_required
+def add_books(section_id):
+    return render_template('section/add_books.html',user = User.query.get(session['user_id']),section = Section.query.get(section_id))
+
+@app.route('/section/<int:section_id>/add-books', methods=['POST'])
+@admin_required
+def add_books_post(section_id):
+    section = Section.query.get(section_id)
+    if not section:
+        flash('Section Not Found')
+        return redirect(url_for('admin'))
+    title = request.form.get('title')
+    author = request.form.get('author')
+    if title == '' or author == '':
+        flash('Book title and Author cannot be empty')
+        return redirect(url_for('add_books', section_id=section_id))
+    book = Book(title=title,author=author,isbn=isbn,section_id=section_id)
+    db.session.add(book)
+    db.session.commit()
+    flash('Book Added Successfully')
+    return redirect(url_for('show_section', id=section_id))
