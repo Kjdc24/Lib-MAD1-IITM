@@ -226,7 +226,7 @@ def add_books_post(section_id):
     if title == '' or author == '':
         flash('Book title and Author cannot be empty')
         return redirect(url_for('add_books', section_id=section_id))
-    book = Book(title=title,author=author,isbn=isbn,section_id=section_id)
+    book = Book(title=title,author=author,section_id=section_id)
     db.session.add(book)
     db.session.commit()
     flash('Book Added Successfully')
