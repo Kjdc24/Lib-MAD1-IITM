@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block title %}
+    Add Section - Lib
+{% endblock %}
+{% block content %}
+    <h1> Delete Section </h1>
+    <h2 class="text-center text-danger">
+        Are you sure you want to delete this section?
+    </h2>
+    <form method="post" class="form">
+        <input type="submit" value="Delete" class="btn btn-danger">
+    </form>
+{% endblock %}
+{% block style %}
+<style>
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+    .form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}
