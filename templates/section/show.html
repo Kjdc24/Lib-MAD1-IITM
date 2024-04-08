@@ -6,13 +6,12 @@
 {% block content %}
     <h1>Books of {{section.name}} - Lib</h1>
     <div class="Heading">
-        <h2 class="text-muted">Books</h2>
         <h3 class="text-muted">
             <em>
                 Showing Books of {{section.name}}.
             </em>
         </h3>
-        <a class="btn btn-success" href="{{url_for('add_book',section_id=section.id)}}">
+        <a class="btn btn-success" href="{{url_for('add_books',section_id=section.id)}}">
             <i class="fas fa-plus fa-xs"></i>
             Add
         </a>

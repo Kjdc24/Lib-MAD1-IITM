@@ -212,7 +212,7 @@ def edit_section_post(id):
 @app.route('/section/<int:section_id>/add-books')
 @admin_required
 def add_books(section_id):
-    return render_template('section/add_books.html',user = User.query.get(session['user_id']),section = Section.query.get(section_id))
+    return render_template('book/add_books.html',user = User.query.get(session['user_id']),section = Section.query.get(section_id))
 
 @app.route('/section/<int:section_id>/add-books', methods=['POST'])
 @admin_required
