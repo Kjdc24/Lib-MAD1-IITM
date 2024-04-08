@@ -4,7 +4,7 @@ Add Book - Lib
 {% endblock %}
 {% block content %}
 <h1> Add Book </h1>
-<form method="post" class="form">
+<form method="post" class="form" action = "{{url_for('add_books_post')}}">
     <label for="title" class="form-label">Title:
         <input type="text" name="title" id="title" class="form-control" required />
     </label>
@@ -38,7 +38,6 @@ Add Book - Lib
     .form{
         display: flex;
         flex-direction: column;
-        align-items: center;
         margin-top: 20px;
         margin-bottom: 30px;
     }

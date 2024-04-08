@@ -1,16 +1,28 @@
 {% extends 'layout.html' %}
 {% block title %}
-Edit <strong> {{book.title}} </strong> - Lib
+Edit Book - Lib
 {% endblock %}
 {% block content %}
-<h1> Edit Book </h1>
+<h1> Edit {{book.title}} </h1>
 <form method="post" class="form">
-    <label for="name" class="form-label">Title:
-        <input type="text" name="name" id="name" class="form-control" required />
+    <label for="title" class="form-label">Title:
+        <input type="text" name="title" id="title" class="form-control" required value = "{{book.name}}"/>
     </label>
     <br> <!-- Add a line break here -->
-    <label for="desc" class="form-label">Author:
-        <input type="text" name="description" id="description" class="form-control" required />
+    <label for="author" class="form-label">Author:
+        <input type="text" name="author" id="author" class="form-control" required value = "{{book.author}}" />
+    </label>
+    <br> <!-- Add a line break here -->
+    <label for="section" class="form-label">Section:
+        <select name="section" id="section" class="form-select" required>
+            {% for section in sections %}
+                {% if section.id == book.section_id %}
+                    <option value="{{ section.id }}" selected>{{ section.name }}</option>
+                {% else %}
+                    <option value="{{ section.id }}">{{ section.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
     </label>
     <br> <!-- Add a line break here -->
     <input type="submit" value="Save" class="btn btn-success">
@@ -26,7 +38,6 @@ Edit <strong> {{book.title}} </strong> - Lib
     .form{
         display: flex;
         flex-direction: column;
-        align-items: center;
         margin-top: 20px;
         margin-bottom: 30px;
     }

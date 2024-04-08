@@ -129,9 +129,9 @@ def logout():
 def mybooks():
     return "    "
 
-@app.route('/data')
+@app.route('/requests')
 @auth_required
-def data():
+def requests():
     return "    "
 
 @app.route('/section/add')
@@ -244,7 +244,8 @@ def add_books_post():
 @app.route('/book/<int:book_id>/edit')
 @admin_required
 def edit_book(book_id):
-    return render_template('book/edit.html',user = User.query.get(session['user_id']),book = Book.query.get(book_id))
+    return render_template('book/edit.html',user = User.query.get(session['user_id']),
+                           book = Book.query.get(book_id),sections = Section.query.all())
 
 @app.route('/book/<int:book_id>/edit', methods=['POST'])
 @admin_required
