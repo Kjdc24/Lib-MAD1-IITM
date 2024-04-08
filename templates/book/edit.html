@@ -1,19 +1,15 @@
 {% extends 'layout.html' %}
 {% block title %}
-Edit Section - Lib
+Edit <strong> {{book.title}} </strong> - Lib
 {% endblock %}
 {% block content %}
-<h1> Edit Section </h1>
+<h1> Edit Book </h1>
 <form method="post" class="form">
-    <label for="name" class="form-label">Name:
+    <label for="name" class="form-label">Title:
         <input type="text" name="name" id="name" class="form-control" required />
     </label>
     <br> <!-- Add a line break here -->
-    <label for="date_created" class="form-label">Date Created:
-        <input type="date" name="date_created" id="date_created" class="form-control" required />
-    </label>
-    <br> <!-- Add a line break here -->
-    <label for="desc" class="form-label">Description:
+    <label for="desc" class="form-label">Author:
         <input type="text" name="description" id="description" class="form-control" required />
     </label>
     <br> <!-- Add a line break here -->

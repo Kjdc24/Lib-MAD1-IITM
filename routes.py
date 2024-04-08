@@ -176,7 +176,11 @@ def edit_section(id):
 @app.route('/section/<int:id>/delete')
 @admin_required
 def delete_section(id):
-    return render_template('section/delete.html',user = User.query.get(session['user_id']),section = Section.query.get(id))
+    section = Section.query.get(id)
+    if not section:
+        flash('Section Not Found')
+        return redirect(url_for('admin'))
+    return render_template('section/delete.html',user = User.query.get(session['user_id']),section = section)
 
 @app.route('/section/<int:id>/delete', methods=['POST'])
 @admin_required
@@ -209,26 +213,69 @@ def edit_section_post(id):
         flash('Section Updated Successfully', 'success')
         return redirect(url_for('admin'))
     
-@app.route('/section/<int:section_id>/add-books')
+@app.route('/section/add-books')
 @admin_required
-def add_books(section_id):
-    return render_template('book/add_books.html',user = User.query.get(session['user_id']),section = Section.query.get(section_id))
+def add_books():
+    section_id = -1
+    args = request.args
+    if 'section_id' in args:
+        if Section.query.get(int(args.get('section_id'))):
+            section_id = int(args.get('section_id'))
+    return render_template('book/add.html', user = User.query.get(session['user_id']),section_id = section_id ,sections = Section.query.all())
 
-@app.route('/section/<int:section_id>/add-books', methods=['POST'])
+@app.route('/section/add-books', methods=['POST'])
 @admin_required
-def add_books_post(section_id):
-    section = Section.query.get(section_id)
-    if not section:
-        flash('Section Not Found')
-        return redirect(url_for('admin'))
+def add_books_post():
     title = request.form.get('title')
     author = request.form.get('author')
-    if title == '' or author == '':
-        flash('Book title and Author cannot be empty')
-        return redirect(url_for('add_books', section_id=section_id))
-    
-    book = Book(title=title,author=author,section_id=section_id)
+    section = request.form.get('section')
+    if title == '' or author == '' or section == '':
+        flash('Fields cannot be empty')
+        return redirect(url_for('add_books'))
+    if not Section.query.get(section):
+        flash('Section Not Found')
+        return redirect(url_for('add_books'))
+    book = Book(title=title,author=author,section_id=section)
     db.session.add(book)
     db.session.commit()
     flash('Book Added Successfully')
-    return redirect(url_for('show_section', id=section_id))
+    return redirect(url_for('show_section', id=section))
+
+@app.route('/book/<int:book_id>/edit')
+@admin_required
+def edit_book(book_id):
+    return render_template('book/edit.html',user = User.query.get(session['user_id']),book = Book.query.get(book_id))
+
+@app.route('/book/<int:book_id>/edit', methods=['POST'])
+@admin_required
+def edit_book_post(book_id):
+    book = Book.query.get(book_id)
+    if not book:
+        flash('Book Not Found')
+        return redirect(url_for('show_section', id=book.section_id))
+    book.title = request.form.get('title')
+    book.author = request.form.get('author')
+    db.session.commit()
+    flash('Book Updated Successfully')
+    return redirect(url_for('show_section', id=book.section_id))
+
+@app.route('/book/<int:book_id>/delete')
+@admin_required
+def delete_book(book_id):
+    book = Book.query.get(book_id)
+    if not book:
+        flash('Book Not Found')
+        return redirect(url_for('show_section', id=book.section_id))
+    return render_template('book/delete.html',user = User.query.get(session['user_id']),book = book)
+
+@app.route('/book/<int:book_id>/delete', methods=['POST'])
+@admin_required
+def delete_book_post(book_id):
+    book = Book.query.get(book_id)
+    if not book:
+        flash('Book Not Found')
+        return redirect(url_for('show_section', id=book.section_id))
+    db.session.delete(book)
+    db.session.commit()
+    flash('Book Deleted Successfully')
+    return redirect(url_for('show_section', id=book.section_id))
