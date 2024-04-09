@@ -290,13 +290,8 @@ def delete_book_post(book_id):
 @app.route('/mybooks')
 @auth_required
 def mybooks():
-    return render_template('mybooks.html', requests = Requests.query.filter_by(user_id=session['user_id']).all(),
-                           books = Book.query.filter(Book.id.in_([request.book_id for request in Requests.query.filter_by(user_id=session['user_id']).all()])))
-
-@app.route('/requests')
-@admin_required
-def requests():
-    return "    "
+    return render_template('mybooks.html', requests= Requests.query.filter_by(user_id=session['user_id']).all(),
+                           books = Book.query.join(Requests).filter(Requests.user_id == session['user_id']).all())
 
 @app.route('/add_requests/<int:book_id>', methods=['POST'])
 @auth_required
@@ -312,9 +307,6 @@ def add_requests(book_id):
 @auth_required
 def return_book(request_id):
     request = Requests.query.get(request_id)
-    if not request:
-        flash('Request Not Found')
-        return redirect(url_for('mybooks'))
     request.date_return = datetime.datetime.now()
     db.session.commit()
     flash('Book Returned Successfully')

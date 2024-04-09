@@ -21,14 +21,17 @@ My Books - Lib
         </tr>
     </thead>
     <tbody>
-        {% for book in books %}
+        {% for request in requests %}
         <tr>
-            <td> {{book.title}} </td>
-            <td> {{book.author}} </td>
-            <td> {{book.section.name}} </td>
-            <td> {{requests.date_return}} </td>
-            <td> {{book.date_added}} </td>
-            <td> </td>
+            <td> {{request.book.title}} </td>
+            <td> {{request.book.author}} </td>
+            <td> {{request.book.section.name}} </td>
+            <td> {{request.date_return}} </td>
+            <td>
+                <a href="{{url_for('return_book', request_id=request.id)}}" method="POST" class="btn btn-danger">
+                    <i class="fas fa-undo fa-xs"></i>
+                </a>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
