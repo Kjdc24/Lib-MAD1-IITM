@@ -8,28 +8,28 @@
             <ul class="navbar-nav">
               {% if user %}
                 {% if not user.is_admin %}
-                <li class="nav-item">
-                  <a class="nav-link active" href="{{url_for('profile')}}">Profile</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('mybooks')}}">My Books</a>
-                </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="{{url_for('profile')}}">Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('mybooks')}}">My Books</a>
+                  </li>
                 {% endif %}
                 {% if user.is_admin %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{{url_for('requests')}}">Requests</a>
-                </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('requests')}}">Requests</a>
+                  </li>
                 {% endif %}
                 <li class="nav-item">
                   <a class="nav-link active" href="{{url_for('logout')}}">Logout</a>
                 </li>
               {% else %}
-              <li class="nav-item">
-                <a class="nav-link active" href="{{url_for('login')}}">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{url_for('register')}}">Register</a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="{{url_for('login')}}">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{url_for('register')}}">Register</a>
+                </li>
               {% endif %}
             </ul>
           </div>
@@ -40,4 +40,5 @@
     .navbar{
         width: 100%;
     }
+    
 </style>

@@ -293,6 +293,11 @@ def mybooks():
     return render_template('mybooks.html', requests= Requests.query.filter_by(user_id=session['user_id']).all(),
                            books = Book.query.join(Requests).filter(Requests.user_id == session['user_id']).all())
 
+@app.route('/requests')
+@admin_required
+def requests():
+    return render_template('requests.html', requests=Requests.query.all())
+
 @app.route('/add_requests/<int:book_id>', methods=['POST'])
 @auth_required
 def add_requests(book_id):
@@ -307,7 +312,11 @@ def add_requests(book_id):
 @auth_required
 def return_book(request_id):
     request = Requests.query.get(request_id)
-    request.date_return = datetime.datetime.now()
+    if not request:
+        flash('Request Not Found')
+        return redirect(url_for('mybooks'))
+    request.revoked = True
+    delete_expired_requests()
     db.session.commit()
     flash('Book Returned Successfully')
     return redirect(url_for('mybooks'))

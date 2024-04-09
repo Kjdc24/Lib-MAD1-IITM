@@ -22,18 +22,66 @@ My Books - Lib
     </thead>
     <tbody>
         {% for request in requests %}
-        <tr>
+        <tr class="entry">
             <td> {{request.book.title}} </td>
             <td> {{request.book.author}} </td>
             <td> {{request.book.section.name}} </td>
             <td> {{request.date_return}} </td>
             <td>
-                <a href="{{url_for('return_book', request_id=request.id)}}" method="POST" class="btn btn-danger">
-                    <i class="fas fa-undo fa-xs"></i>
-                </a>
+                <form action="{{url_for('return_book', request_id=request.id)}}" method="post" class="return_button">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa-solid fa-right-left"></i>
+                    </button>
+                </form>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+
+{% block style %}
+<style>
+    .Heading {
+        margin-top: 20px;
+    }
+    .Heading h3 {
+        text-align: center;
+    }
+    .Heading em {
+        font-size: 40px;
+    }
+    .table {
+        width: 100%;
+    }
+    .table thead {
+        text-align: center;
+    }
+    .table thead th {
+        vertical-align: middle;
+        text-align: center;
+        padding: 40px;
+    }
+    .table tbody tr td {
+        vertical-align: middle;
+        text-align: center;
+        margin-top: 20px;
+        padding: 20px;
+    }
+    .return_button {
+        display: flex;
+        justify-content: center;
+    }
+    .return_button button {
+        background-color: #2e2e2e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 10px;
+    }
+    .entry {    
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+        padding: 40px;
+    }
+</style>
 {% endblock %}
