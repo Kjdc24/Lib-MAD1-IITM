@@ -1,6 +1,0 @@
-body {
-    background-image: url_for('lib.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-}
