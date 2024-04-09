@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Requests - Lib
+{% endblock %}
+{% block content %}
+    <h1>Showing all User Requests.</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Book Name</th>
+                <th>Author Name</th>
+                <th>Return Date</th>
+                <th>Revoke Access</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+                <tr>
+                    <td>{{request.user.name}}</td>
+                    <td>{{request.book.title}}</td>
+                    <td>{{request.book.author}}</td>
+                    <td>{{request.date_return}}</td>
+                    <td>
+                        <form action="{{url_for('return_book', request_id=request.id)}}" method="post" class="return_button">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa-solid fa-right-left"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div> <!-- Add a closing div tag here -->
+{% endblock %}       
+{% block style %}       
+<style>
+    h1{
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+    .table{
+        width: 100%;
+    }
+    .table thead th{
+        vertical-align: middle;
+        text-align: center;
+        padding: 20px;
+    }
+    .table tbody tr td{
+        vertical-align: middle;
+        text-align: center;
+        padding: 20px;
+    }
+    .return_button {
+        display: flex;
+        justify-content: center;
+    }
+    .return_button button {
+        background-color: #2e2e2e;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 15px;
+    }
+</style>
+{% endblock %}
