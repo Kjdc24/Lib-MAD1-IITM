@@ -7,10 +7,10 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               {% if user %}
+                {% if not user.is_admin %}
                 <li class="nav-item">
                   <a class="nav-link active" href="{{url_for('profile')}}">Profile</a>
                 </li>
-                {% if not user.is_admin %}
                 <li class="nav-item">
                   <a class="nav-link" href="{{url_for('mybooks')}}">My Books</a>
                 </li>

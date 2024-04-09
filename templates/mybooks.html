@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block title %}
+My Books - Lib
+{% endblock %}
+{% block content %}
+<div class="Heading">
+    <h3 class="text-muted">
+        <em>
+            Showing all Books.
+        </em>
+    </h3>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th> Title </th>
+            <th> Author </th>
+            <th> Section </th>
+            <th> Return Date </th>
+            <th> Return Book </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td> {{book.title}} </td>
+            <td> {{book.author}} </td>
+            <td> {{book.section.name}} </td>
+            <td> {{requests.date_return}} </td>
+            <td> {{book.date_added}} </td>
+            <td> </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

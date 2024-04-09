@@ -31,6 +31,9 @@ def admin_required(func):
 @auth_required
 def index():
     user = User.query.get(session['user_id'])
+    if not user:
+        flash('Invalid User.')
+        return redirect(url_for('login'))
     if user.is_admin:
         return redirect(url_for('admin'))
     parameter = request.args.get('parameter')
@@ -287,7 +290,8 @@ def delete_book_post(book_id):
 @app.route('/mybooks')
 @auth_required
 def mybooks():
-    return "    "
+    return render_template('mybooks.html', requests = Requests.query.filter_by(user_id=session['user_id']).all(),
+                           books = Book.query.filter(Book.id.in_([request.book_id for request in Requests.query.filter_by(user_id=session['user_id']).all()])))
 
 @app.route('/requests')
 @admin_required
@@ -318,7 +322,7 @@ def return_book(request_id):
 
 def delete_expired_requests():
     current_date = datetime.datetime.today()
-    expired_requests = Requests.query.filter((Requests.revoked == True) or (Requests.date_return < current_date)).all()
+    expired_requests = Requests.query.filter((Requests.revoked == True) | (Requests.date_return < current_date)).all()
     for request in expired_requests:
         db.session.delete(request)
     db.session.commit()
