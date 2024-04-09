@@ -3,6 +3,7 @@ from models import db, User, Book, Section, Requests
 from functools import wraps
 from app import app
 import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
 
 def auth_required(func):
     @wraps(func)
@@ -296,4 +297,33 @@ def requests():
 @app.route('/add_requests/<int:book_id>', methods=['POST'])
 @auth_required
 def add_requests(book_id):
-    return "    "
+    request = Requests(book_id=book_id,user_id=session['user_id'])
+    db.session.add(request)
+    db.session.commit()
+    flash('Book Added Successfully')
+    return redirect(url_for('index'))
+
+@app.route('/revoke_requests/<int:request_id>', methods=['POST'])
+@admin_required
+def revoke_requests(request_id):
+    request = Requests.query.get(request_id)
+    if not request:
+        flash('Request Not Found')
+        return redirect(url_for('requests'))
+    request.revoked = True
+    request.date_revoked = datetime.datetime.now()
+    db.session.commit()
+    flash('Request Revoked Successfully')
+    return redirect(url_for('requests'))
+
+def delete_expired_requests():
+    current_date = datetime.datetime.now().date()
+    expired_requests = Requests.query.filter(Requests.revoked == False, Requests.date_revoked < current_date).all()
+    for request in expired_requests:
+        db.session.delete(request)
+    db.session.commit()
+
+# Schedule the delete_expired_requests function to run daily
+scheduler = BackgroundScheduler()
+scheduler.add_job(delete_expired_requests, 'interval', days=1)
+scheduler.start()
