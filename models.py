@@ -45,6 +45,7 @@ class Requests(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date_requested = db.Column(db.Date, nullable=False, default=datetime.date.today)
     date_return = db.Column(db.Date, nullable=True, default=datetime.date.today() + datetime.timedelta(days=7))
+    revoked = db.Column(db.Boolean, nullable=False, default=False)
     # Foreign Key Relation
     user = db.relationship('User',backref='requests',lazy=True)
     book = db.relationship('Book',backref='requests',lazy=True)

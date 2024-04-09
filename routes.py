@@ -297,28 +297,28 @@ def requests():
 @app.route('/add_requests/<int:book_id>', methods=['POST'])
 @auth_required
 def add_requests(book_id):
-    request = Requests(book_id=book_id,user_id=session['user_id'])
+    request = Requests(book_id=book_id, user_id=session['user_id'], date_requested=datetime.datetime.now(), 
+                       date_return=datetime.datetime.now() + datetime.timedelta(days=7), revoked=False)
     db.session.add(request)
     db.session.commit()
     flash('Book Added Successfully')
     return redirect(url_for('index'))
 
-@app.route('/revoke_requests/<int:request_id>', methods=['POST'])
-@admin_required
-def revoke_requests(request_id):
+@app.route('/return_book/<int:request_id>', methods=['POST'])
+@auth_required
+def return_book(request_id):
     request = Requests.query.get(request_id)
     if not request:
         flash('Request Not Found')
-        return redirect(url_for('requests'))
-    request.revoked = True
-    request.date_revoked = datetime.datetime.now()
+        return redirect(url_for('mybooks'))
+    request.date_return = datetime.datetime.now()
     db.session.commit()
-    flash('Request Revoked Successfully')
-    return redirect(url_for('requests'))
+    flash('Book Returned Successfully')
+    return redirect(url_for('mybooks'))
 
 def delete_expired_requests():
-    current_date = datetime.datetime.now().date()
-    expired_requests = Requests.query.filter(Requests.revoked == False, Requests.date_revoked < current_date).all()
+    current_date = datetime.datetime.today()
+    expired_requests = Requests.query.filter((Requests.revoked == True) or (Requests.date_return < current_date)).all()
     for request in expired_requests:
         db.session.delete(request)
     db.session.commit()
