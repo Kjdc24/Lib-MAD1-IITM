@@ -291,7 +291,8 @@ def delete_book_post(book_id):
 @auth_required
 def mybooks():
     return render_template('mybooks.html', requests= Requests.query.filter_by(user_id=session['user_id']).all(),
-                           books = Book.query.join(Requests).filter(Requests.user_id == session['user_id']).all())
+                           books = Book.query.join(Requests).filter(Requests.user_id == session['user_id']).all(),
+                           user = User.query.get(session['user_id']))
 
 @app.route('/requests')
 @admin_required

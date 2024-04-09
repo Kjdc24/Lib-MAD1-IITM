@@ -9,7 +9,7 @@
               {% if user %}
                 {% if not user.is_admin %}
                   <li class="nav-item">
-                    <a class="nav-link active" href="{{url_for('profile')}}">Profile</a>
+                    <a class="nav-link" href="{{url_for('profile')}}">Profile</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="{{url_for('mybooks')}}">My Books</a>
@@ -20,9 +20,11 @@
                     <a class="nav-link" href="{{url_for('requests')}}">Requests</a>
                   </li>
                 {% endif %}
-                <li class="nav-item">
-                  <a class="nav-link active" href="{{url_for('logout')}}">Logout</a>
-                </li>
+                <ul class="navbar-nav-out">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+                  </li>
+                </ul>
               {% else %}
                 <li class="nav-item">
                   <a class="nav-link active" href="{{url_for('login')}}">Login</a>
@@ -37,8 +39,7 @@
 </nav>
 
 <style>
-    .navbar{
-        width: 100%;
-    }
-    
+  .navbar{
+    width: 100%;
+  }
 </style>
