@@ -297,7 +297,7 @@ def mybooks():
 @app.route('/requests')
 @admin_required
 def requests():
-    return render_template('requests.html', requests=Requests.query.all())
+    return render_template('requests.html', requests=Requests.query.all(), user = User.query.get(session['user_id']))
 
 @app.route('/add_requests/<int:book_id>', methods=['POST'])
 @auth_required

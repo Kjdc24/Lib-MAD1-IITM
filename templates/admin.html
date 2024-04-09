@@ -4,7 +4,7 @@
     Librarian Dashboard - Lib
 {% endblock %}
 {% block content %}
-    <h1>Home - Librarian</h1>
+    <h1>Librarian Dashboard</h1>
     <div class="Heading">
         <h2 class="text-muted">Sections</h2>
         <a class="btn btn-success" href="{{url_for('add_section')}}">
@@ -15,7 +15,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Section ID</th>
                 <th>Section Name</th>
                 <th>Date Created</th>
                 <th>Desc</th>
@@ -27,7 +26,6 @@
         <tbody>
             {% for section in sections %}
                 <tr>
-                    <td>{{section.id}}</td>
                     <td>{{section.name}}</td>
                     <td>{{section.date_created}}</td>
                     <td>{{section.desc}}</td>
@@ -53,13 +51,27 @@
 {% block style %}       
 <style>
     .Heading{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
     h1, h2{
-                text-align: center;
-                margin-bottom: 20px; /* Add margin-bottom to create space */
-            }
+        text-align: center;
+        margin-bottom: 20px; 
+        margin-top: 20px;
+    }
+    .table{
+        margin-top: 20px;
+        width: 100%;
+    }
+    .table thead th, .table tbody tr td{
+        text-align: center;
+    }
+    .table tbody tr td{
+        vertical-align: middle;
+        text-align: center;
+        padding: 20px;
+    }
 </style>
 {% endblock %}

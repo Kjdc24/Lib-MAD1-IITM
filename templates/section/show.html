@@ -4,13 +4,13 @@
     Books of {{section.name}} - Lib
 {% endblock %}
 {% block content %}
-    <h1>Books of {{section.name}} - Lib</h1>
+    <h1>Books of {{section.name}}.</h1>
     <div class="Heading">
-        <h3 class="text-muted">
+        <h2 class="text-muted">
             <em>
-                Showing Books of {{section.name}}.
+                Showing all Books.
             </em>
-        </h3>
+        </h2>
         <a class="btn btn-success" href="{{url_for('add_books',section_id=section.id)}}">
             <i class="fas fa-plus fa-xs"></i>
             Add
@@ -49,13 +49,27 @@
 {% block style %}       
 <style>
     .Heading{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
     h1, h2{
-                text-align: center;
-                margin-bottom: 20px; /* Add margin-bottom to create space */
-            }
+        text-align: center;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    .table{
+        width: 100%;
+    }
+    .table thead th{
+        vertical-align: middle;
+        text-align: center;
+        padding: 20px;
+    }
+    .table tbody tr td{
+        vertical-align: middle;
+        text-align: center;
+        padding: 20px;
+    }
 </style>
 {% endblock %}
